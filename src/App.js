@@ -58,9 +58,8 @@ class App extends React.Component {
 
   onButtonSubmit = () => {
     this.setState({ imageUrl: this.state.input });
-
     app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, [this.state.input])
+      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
       .then((response) => {
         if (response) {
           fetch("http://localhost:3000/image", {
@@ -70,16 +69,14 @@ class App extends React.Component {
               id: this.state.user.id,
             }),
           })
-            .then((response) => {
-              return response.json();
-            })
+            .then((response) => response.json())
             .then((count) => {
               this.setState(Object.assign(this.state.user, { entries: count }));
             });
         }
         this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .then((err) => console.err(err));
+      .catch((err) => console.log(err));
   };
 
   onRouteChange = (route) => {
@@ -94,11 +91,13 @@ class App extends React.Component {
 
   loadUser = (data) => {
     this.setState({
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      entries: 0,
-      joined: data.joined,
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined,
+      },
     });
   };
 
