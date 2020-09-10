@@ -24,6 +24,13 @@ class App extends React.Component {
       box: {},
       route: "signin",
       isSignedIn: false,
+      user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: 0,
+        joined: "",
+      },
     };
   }
 
@@ -70,6 +77,16 @@ class App extends React.Component {
     this.setState({ route: route });
   };
 
+  loadUser = (data) => {
+    this.setState({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: 0,
+      joined: data.joined,
+    });
+  };
+
   render() {
     return (
       <div className="App">
@@ -83,7 +100,10 @@ class App extends React.Component {
           </div>
         ) : this.state.route === "register" ? (
           <div>
-            <Register />
+            <Register
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
+            />
           </div>
         ) : (
           <div>
