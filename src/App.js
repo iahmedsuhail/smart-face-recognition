@@ -110,7 +110,7 @@ class App extends React.Component {
           isSignedIn={this.state.isSignedIn}
           onRouteChange={this.onRouteChange}
         />
-        {this.state.route === "signin" ? (
+        {this.state.route === "signin" || this.state.route === "signout" ? (
           <div>
             <Signin
               loadUser={this.loadUser}
