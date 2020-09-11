@@ -6,9 +6,7 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
-
 import "./App.css";
-import Clarifai from "clarifai";
 
 const initialState = {
   input: "",
