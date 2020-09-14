@@ -1,25 +1,30 @@
 import React from "react";
-import Navigation from "./components/Navigation/Navigation.js";
-import Logo from "./components/Logo/Logo.js";
-import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm.js";
+import Navigation from "./components/Navigation/Navigation";
+import Logo from "./components/Logo/Logo";
+import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
+import Modal from "./components/Modal/Modal";
+import Profile from "./components/Profile/Profile";
 import "./App.css";
 
 const initialState = {
   input: "",
   imageUrl: "",
   boxes: [],
-  route: "home",
-  isSignedIn: true,
+  route: "signin",
+  isSignedIn: false,
+  isProfileOpen: false,
   user: {
     id: "",
     name: "",
     email: "",
     entries: 0,
     joined: "",
+    pet: "",
+    age: "",
   },
 };
 
@@ -104,13 +109,30 @@ class App extends React.Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState((prevState) => ({
+      ...prevState,
+      isProfileOpen: !prevState.isProfileOpen,
+    }));
+  };
+
   render() {
     return (
       <div className="App">
         <Navigation
           isSignedIn={this.state.isSignedIn}
           onRouteChange={this.onRouteChange}
+          toggleModal={this.toggleModal}
         />
+        {this.state.isProfileOpen && (
+          <Modal>
+            <Profile
+              isProfileOpen={this.state.isProfileOpen}
+              toggleModal={this.toggleModal}
+              user={this.state.user}
+            />
+          </Modal>
+        )}
         {this.state.route === "signin" || this.state.route === "signout" ? (
           <div>
             <Signin
@@ -128,6 +150,7 @@ class App extends React.Component {
         ) : (
           <div>
             <Logo />
+
             <Rank
               name={this.state.user.name}
               entries={this.state.user.entries}
